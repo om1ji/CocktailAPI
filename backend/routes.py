@@ -33,3 +33,7 @@ async def search_ingredient(ingredient: str):
 async def search_drink(drink: str):
     """Поиск коктейля по названию"""
     return await views.search_drink(drink)
+
+@router.get("/image")
+async def proxy_image(url: str):
+    return await views.proxy_image(url)

@@ -1,5 +1,5 @@
 import httpx
-from fastapi import HTTPException
+from fastapi import HTTPException, Response
 
 class APIViews():
     def __init__(self):
@@ -23,7 +23,7 @@ class APIViews():
                             "alcoholic": cocktail["strAlcoholic"],
                             "glass": cocktail["strGlass"],
                             "instructions": cocktail["strInstructions"],
-                            "image": cocktail["strDrinkThumb"],
+                            "image": f"/api/v1/image?url={cocktail['strDrinkThumb']}",
                             "ingredients": self._extract_ingredients(cocktail),
                             "tags": cocktail["strTags"],
                             "iba": cocktail["strIBA"]
@@ -55,7 +55,7 @@ class APIViews():
                             "alcoholic": cocktail["strAlcoholic"],
                             "glass": cocktail["strGlass"],
                             "instructions": cocktail["strInstructions"],
-                            "image": cocktail["strDrinkThumb"],
+                            "image": f"/api/v1/image?url={cocktail['strDrinkThumb']}",
                             "ingredients": self._extract_ingredients(cocktail),
                             "tags": cocktail["strTags"],
                             "iba": cocktail["strIBA"]
@@ -114,7 +114,7 @@ class APIViews():
                             "alcoholic": cocktail["strAlcoholic"],
                             "glass": cocktail["strGlass"],
                             "instructions": cocktail["strInstructions"],
-                            "image": cocktail["strDrinkThumb"],
+                            "image": f"/api/v1/image?url={cocktail['strDrinkThumb']}",
                             "ingredients": self._extract_ingredients(cocktail),
                             "tags": cocktail["strTags"],
                             "iba": cocktail["strIBA"]
@@ -133,6 +133,18 @@ class APIViews():
         except Exception as e:
             raise HTTPException(status_code=500, detail=f"Ошибка: {str(e)}")
     
+    async def proxy_image(self, url: str):
+        try:
+            async with httpx.AsyncClient() as client:
+                resp = await client.get(url)
+                resp.raise_for_status()
+                content_type = resp.headers.get("Content-Type", "image/jpeg")  # fallback
+                return Response(content=resp.content, media_type=content_type)
+        except httpx.HTTPStatusError as e:
+            raise HTTPException(status_code=resp.status_code, detail="Ошибка при загрузке изображения")
+        except Exception as e:
+            raise HTTPException(status_code=500, detail=f"Внутренняя ошибка: {str(e)}")
+        
     def _extract_ingredients(self, cocktail):
         ingredients = []
         for i in range(1, 16):
