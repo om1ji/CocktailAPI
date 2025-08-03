@@ -23,7 +23,7 @@ class APIViews():
                             "alcoholic": cocktail["strAlcoholic"],
                             "glass": cocktail["strGlass"],
                             "instructions": cocktail["strInstructions"],
-                            "image": f"/api/v1/image?url={cocktail['strDrinkThumb']}",
+                            "image": f"/api/v1/image?url={cocktail['strDrinkThumb']}/medium",
                             "ingredients": self._extract_ingredients(cocktail),
                             "tags": cocktail["strTags"],
                             "iba": cocktail["strIBA"]
@@ -55,7 +55,7 @@ class APIViews():
                             "alcoholic": cocktail["strAlcoholic"],
                             "glass": cocktail["strGlass"],
                             "instructions": cocktail["strInstructions"],
-                            "image": f"/api/v1/image?url={cocktail['strDrinkThumb']}",
+                            "image": f"/api/v1/image?url={cocktail['strDrinkThumb']}/medium",
                             "ingredients": self._extract_ingredients(cocktail),
                             "tags": cocktail["strTags"],
                             "iba": cocktail["strIBA"]
@@ -114,7 +114,7 @@ class APIViews():
                             "alcoholic": cocktail["strAlcoholic"],
                             "glass": cocktail["strGlass"],
                             "instructions": cocktail["strInstructions"],
-                            "image": f"/api/v1/image?url={cocktail['strDrinkThumb']}",
+                            "image": f"/api/v1/image?url={cocktail['strDrinkThumb']}/medium",
                             "ingredients": self._extract_ingredients(cocktail),
                             "tags": cocktail["strTags"],
                             "iba": cocktail["strIBA"]
